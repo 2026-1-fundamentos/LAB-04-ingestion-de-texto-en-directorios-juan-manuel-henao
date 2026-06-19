@@ -4,7 +4,9 @@
 """
 Escriba el codigo que ejecute la accion solicitada en cada pregunta.
 """
-
+import glob
+import os.path
+import pandas as pd
 
 def pregunta_01():
     """
@@ -71,3 +73,43 @@ def pregunta_01():
 
 
     """
+
+    columnas=["phrase","target"]
+
+    filas_test=[]
+    files = glob.glob("files/input/test/*/*")
+    for file in files:
+        with open(file, "r", encoding="utf-8") as f:
+            for linea in f:
+                if len(linea.split())>0:
+                    filas_test.append([linea, (os.path.dirname(file)).split('\\')[-1]])
+
+    filas_train=[]
+    files = glob.glob("files/input/train/*/*")
+    for file in files:
+        with open(file, "r", encoding="utf-8") as f:
+            for linea in f:
+                if len(linea.split())>0:
+                    filas_train.append([linea, (os.path.dirname(file)).split('\\')[-1]])
+
+    df_test=pd.DataFrame(filas_test,columns=columnas)
+    df_train=pd.DataFrame(filas_train,columns=columnas)
+
+
+    if os.path.exists("files/output/"):
+        for file in glob.glob(f"files/output/*"):
+            os.remove(file)
+        df_test.to_csv(
+            f"{"files/output"}/test_dataset.csv",
+            sep=",",
+            index=True,
+            header=True,
+        )
+        df_train.to_csv(
+            f"{"files/output"}/train_dataset.csv",
+            sep=",",
+            index=True,
+            header=True,
+        )
+    else:
+        os.makedirs("files/output")
