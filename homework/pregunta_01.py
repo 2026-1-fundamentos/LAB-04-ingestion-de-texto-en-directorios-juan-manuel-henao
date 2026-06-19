@@ -82,7 +82,7 @@ def pregunta_01():
         with open(file, "r", encoding="utf-8") as f:
             for linea in f:
                 if len(linea.split())>0:
-                    filas_test.append([linea, (os.path.dirname(file)).split('\\')[-1]])
+                    filas_test.append([linea, os.path.basename(os.path.dirname(file))])
 
     filas_train=[]
     files = glob.glob("files/input/train/*/*")
@@ -90,7 +90,7 @@ def pregunta_01():
         with open(file, "r", encoding="utf-8") as f:
             for linea in f:
                 if len(linea.split())>0:
-                    filas_train.append([linea, (os.path.dirname(file)).split('\\')[-1]])
+                    filas_train.append([linea, os.path.basename(os.path.dirname(file))])
 
     df_test=pd.DataFrame(filas_test,columns=columnas)
     df_train=pd.DataFrame(filas_train,columns=columnas)
