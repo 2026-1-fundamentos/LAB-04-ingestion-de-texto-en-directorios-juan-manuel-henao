@@ -99,17 +99,19 @@ def pregunta_01():
     if os.path.exists("files/output/"):
         for file in glob.glob(f"files/output/*"):
             os.remove(file)
-        df_test.to_csv(
+    else:
+        os.makedirs("files/output")
+
+    df_test.to_csv(
             f"{"files/output"}/test_dataset.csv",
             sep=",",
             index=True,
             header=True,
         )
-        df_train.to_csv(
+    df_train.to_csv(
             f"{"files/output"}/train_dataset.csv",
             sep=",",
             index=True,
             header=True,
         )
-    else:
-        os.makedirs("files/output")
+    
